@@ -38,8 +38,7 @@ class Module extends require('events') {
         const a = new (util.isClass(target) ? target : target())(options);
         for (const i in dep) {
             const found = this.has(dep[i].dep);
-            dep[i].dep = (found) ? found : this.instantiate(dep[i].dep, this.getScope(dep[i].dep));
-            a[dep[i].key] = dep[i].dep;
+            a[dep[i].key] = (found) ? found : this.instantiate(dep[i].dep, this.getScope(dep[i].dep));
         }
         this.instance.push(a);
         return a;
