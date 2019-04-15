@@ -54,11 +54,13 @@ class Error {
 
 }
 
-const a = new Module([Thinger, Error]).build();
-const b = new Module([Thinger, Error], a).build();
+const a = new Module([Thinger, Error]);
+a.build();
+const b = new Module([Thinger, Error], a);
+const c = b.build();
 
 console.log(a, b);
 
 setInterval(() => {
-	b[1].error();
+	c[1].error();
 }, 1000);
