@@ -1,3 +1,3 @@
 import 'reflect-metadata';
-declare const Injectable: (options?: object) => (target: Object) => void;
+declare const Injectable: (...args: any[]) => (target: Object) => void;
 export default Injectable;

@@ -7,4 +7,6 @@ const injectable_1 = require("./src/injectable");
 exports.Injectable = injectable_1.default;
 const module_1 = require("./src/module");
 exports.Module = module_1.default;
+const param_1 = require("./src/param");
+exports.Param = param_1.default;
 //# sourceMappingURL=index.js.map

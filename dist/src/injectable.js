@@ -3,10 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 const enum_1 = require("./enum");
 /* tslint:disable:variable-name */
-const Injectable = (options) => {
+const Injectable = (...args) => {
     return (target) => {
-        const a = Reflect.getMetadata(enum_1.METADATA.SCOPE, target) || [];
-        Reflect.defineMetadata(enum_1.METADATA.SCOPE, (options) ? a.concat([options]) : a, target);
+        Reflect.defineMetadata(enum_1.METADATA.SCOPE, args, target);
     };
 };
 exports.default = Injectable;

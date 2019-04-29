@@ -13,40 +13,37 @@ class Module extends require('events') {
     getScope(target) {
         const o = Reflect.getMetadata(enum_1.METADATA.SCOPE, target);
         if (!o) {
-            console.log(target, o);
             this.emit('warning', `missing @Injectable on ${target.name}}`);
-            return {};
+            return [];
         }
-        let options = {};
-        for (const i in o) {
-            options = Object.assign({}, options, o[i]);
-        }
-        return options;
+        return o;
     }
-    has(target) {
-        let found = null;
+    has(target, options) {
         for (const x in this.instance) {
-            if (this.instance[x] instanceof target) {
-                found = this.instance[x];
-                break;
+            if (this.instance[x].tClass instanceof target) {
+                if (util.equal(this.instance[x].tParam, options)) {
+                    return this.instance[x].tClass;
+                }
             }
         }
-        return found;
+        return null;
     }
     instantiate(target, options) {
         const dep = Reflect.getMetadata(enum_1.METADATA.DEPENDANCY, target);
-        const a = new (util.isClass(target) ? target : target())(options);
+        const a = new (util.isClass(target) ? target : target())(...(options || []));
         for (const i in dep) {
-            const found = this.has(dep[i].dep);
-            a[dep[i].key] = (found) ? found : this.instantiate(dep[i].dep, this.getScope(dep[i].dep));
+            const scope = this.getScope(dep[i].dep);
+            const param = Reflect.getMetadata(enum_1.METADATA.PARAM, a, dep[i].key) || scope, found = this.has(dep[i].dep, param);
+            a[dep[i].key] = (found) ? found : this.instantiate(dep[i].dep, param);
         }
-        this.instance.push(a);
+        this.instance.push({ tClass: a, tParam: options || [] });
         return a;
     }
     build() {
         const o = [];
         for (const i in this.list) {
-            const found = this.has(this.list[i]);
+            const l = util.isClass(this.list[i]) ? this.list[i] : this.list[i]();
+            const found = this.has(l, []);
             o.push(found ? found : this.instantiate(this.list[i]));
         }
         return o;

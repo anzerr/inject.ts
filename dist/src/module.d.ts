@@ -4,9 +4,9 @@ export default class Module extends Module_base {
     private list;
     private instance;
     constructor(list: Object[], instance?: Object[] | Module);
-    getScope(target: any): {};
-    has(target: any): object | void;
-    instantiate(target: any, options?: object): Object;
+    getScope(target: any): any;
+    has(target: any, options: any[]): object | void;
+    instantiate(target: any, options?: any[]): Object;
     build(): any[];
 }
 export {};

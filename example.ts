@@ -1,13 +1,14 @@
 
 import 'reflect-metadata';
-import {Injectable, Inject, Module} from './index';
+import {Injectable, Inject, Module, Param} from './index';
 
 @Injectable()
 class Log {
 	count: number;
 
-	constructor() {
-		this.count = 0;
+	constructor(count) {
+		console.log('arg Log', count);
+		this.count = count || 0;
 	}
 
 	console(...arg) {
@@ -22,7 +23,9 @@ class Greeter {
 	@Inject(() => Log)
 	log: Log;
 
-	constructor() {}
+	constructor(...arg) {
+		console.log('arg Greeter', arg);
+	}
 
 	displayMessage(name: string) {
 		return this.log.console('welcome', name);
@@ -31,10 +34,12 @@ class Greeter {
 }
 
 class Thinger {
+	@Param({test: 'stuff', n: 1}, 'cat', true)
 	@Inject(Greeter)
 	greeter: Greeter;
 
-	constructor() {
+	constructor(...arg) {
+		console.log('arg Thinger', arg);
 		setTimeout(() => {
 			this.greeter.displayMessage('dave');
 		}, 5000);
@@ -43,10 +48,13 @@ class Thinger {
 }
 
 class Error {
+	@Param(100)
 	@Inject(Log)
 	log: Log;
 
-	constructor() {}
+	constructor(...arg) {
+		console.log('arg Error', arg);
+	}
 
 	error() {
 		return this.log.console('there was a error');
