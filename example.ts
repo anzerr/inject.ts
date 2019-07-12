@@ -3,12 +3,25 @@ import 'reflect-metadata';
 import {Injectable, Inject, Module, Param} from './index';
 
 @Injectable()
+class Config {
+
+	constructor() {}
+
+	get() {
+		return {
+			start: Math.floor(Math.random() * 10)
+		};
+	}
+
+}
+
+@Injectable()
 class Log {
 	count: number;
 
-	constructor(count) {
-		console.log('arg Log', count);
-		this.count = count || 0;
+	constructor(count, @Inject(Config) config: Config) {
+		console.log('arg Log', count, config.get());
+		this.count = count || config.get().start;
 	}
 
 	console(...arg) {
@@ -38,11 +51,17 @@ class Thinger {
 	@Inject(Greeter)
 	greeter: Greeter;
 
+	interval: any;
+
 	constructor(...arg) {
 		console.log('arg Thinger', arg);
-		setTimeout(() => {
+		this.interval = setInterval(() => {
 			this.greeter.displayMessage('dave');
-		}, 5000);
+		}, 2000);
+	}
+
+	close() {
+		clearInterval(this.interval);
 	}
 
 }
@@ -67,8 +86,13 @@ a.build();
 const b = new Module([Thinger, Error], a);
 const c = b.build();
 
-console.log(a, b);
+console.log(c);
 
-setInterval(() => {
+const error = setInterval(() => {
 	c[1].error();
 }, 1000);
+
+setTimeout(() => {
+	c[0].close();
+	clearInterval(error);
+}, 1000 * 10);

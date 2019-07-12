@@ -36,13 +36,21 @@ export default class Module extends require('events') {
 		return null;
 	}
 
-	instantiate(target: any, options?: any[]): Object {
-		const dep = Reflect.getMetadata(METADATA.DEPENDANCY, target);
-		const a = new (util.isClass(target) ? target : target())(...(options || []));
+	instantiate(target: any, o?: any[]): Object {
+		const targetClass = util.isClass(target) ? target : target();
+		const dep = Reflect.getMetadata(METADATA.DEPENDANCY, targetClass);
+		const injectParam = Reflect.getMetadata(METADATA.DEPENDANCYPARAM, targetClass);
+		const options = o || [];
+		for (const i in injectParam) {
+			const found = this.has(injectParam[i].dep, []);
+			options[injectParam[i].index] = (found) ? found : this.instantiate(injectParam[i].dep, []);
+		}
+		const a = new targetClass(...options);
+		const injectParam2 = Reflect.getMetadata(METADATA.DEPENDANCYPARAM, a);
 		for (const i in dep) {
 			const scope = this.getScope(dep[i].dep);
-			const param =  Reflect.getMetadata(METADATA.PARAM, a, dep[i].key) || scope,
-				found = this.has(dep[i].dep, param);
+			const param = Reflect.getMetadata(METADATA.PARAM, a, dep[i].key) || scope;
+			const found = this.has(dep[i].dep, param);
 			a[dep[i].key] = (found) ? found : this.instantiate(dep[i].dep, param);
 		}
 		this.instance.push({tClass: a, tParam: options || []});

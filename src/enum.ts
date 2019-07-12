@@ -1,6 +1,7 @@
 
 export const METADATA = {
-	SCOPE: 'scope:options',
-	DEPENDANCY: 'dependancy',
-	PARAM: 'dependancy:param'
+	SCOPE: 'a:1',
+	DEPENDANCY: 'a:2',
+	PARAM: 'a:3',
+	DEPENDANCYPARAM: 'a:4'
 };
