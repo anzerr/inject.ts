@@ -1,10 +1,10 @@
 
 ### `Intro`
-A simple example of a decorator for dependency injection
+A simple example of a decorator for dependency injection.
 
 #### `Install`
 ``` bash
-npm install --save git+https://git@github.com/anzerr/inject.ts.git
+npm install --save git+https://github.com/anzerr/inject.ts.git
 ```
 
 ### `Example`
