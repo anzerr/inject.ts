@@ -5,6 +5,7 @@ A simple example of a decorator for dependency injection.
 #### `Install`
 ``` bash
 npm install --save git+https://github.com/anzerr/inject.ts.git
+npm install --save @anzerr/inject.ts
 ```
 
 ### `Example`
