@@ -8,6 +8,9 @@ class Util {
 	}
 
 	equal(actual: any, expected: any): any {
+		if (actual.length !== expected.length) {
+			return false;
+		}
 		try {
 			assert.deepStrictEqual(actual, expected);
 			return true;

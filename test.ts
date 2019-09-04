@@ -3,11 +3,13 @@ import 'reflect-metadata';
 import {Injectable, Inject, Module, Param} from './index';
 import * as assert from 'assert';
 
+const built: any = {};
+
 @Injectable()
 class Config {
 
 	constructor() {
-		// nothing
+		built.config = (built.config || 0) + 1;
 	}
 
 }
@@ -21,6 +23,7 @@ class Log {
 	constructor(count, @Inject(Config) config: Config) {
 		this.count = count || 0;
 		this.config = config;
+		built.log = (built.log || 0) + 1;
 	}
 
 }
@@ -36,9 +39,9 @@ class Greeter {
 
 	message: any;
 
-
 	constructor(...arg) {
 		this.message = arg;
+		built.greeter = (built.greeter || 0) + 1;
 	}
 
 }
@@ -48,6 +51,10 @@ class Thinger {
 	@Param({test: 'stuff', n: 1}, 'cat', true)
 	@Inject(Greeter)
 	greeter: Greeter;
+
+	constructor() {
+		built.thinger = (built.thinger || 0) + 1;
+	}
 
 }
 
@@ -59,3 +66,7 @@ const outb = b.build();
 assert.deepEqual(outa, outb);
 assert.equal(outa[0].greeter.config, outa[0].greeter.log.config);
 assert.deepEqual(outa[0].greeter.message, [{test: 'stuff', n: 1}, 'cat', true]);
+
+for (const i in built) {
+	assert.equal(built[i], 1);
+}

@@ -31,7 +31,7 @@ class Module extends require('events') {
         const targetClass = util.isClass(target) ? target : target();
         const dep = Reflect.getMetadata(enum_1.METADATA.DEPENDANCY, targetClass);
         const injectParam = Reflect.getMetadata(enum_1.METADATA.DEPENDANCYPARAM, targetClass);
-        const options = o || [];
+        const options = (o) ? [...o] : [];
         for (const i in injectParam) {
             const found = this.has(injectParam[i].dep, []);
             options[injectParam[i].index] = (found) ? found : this.instantiate(injectParam[i].dep, []);

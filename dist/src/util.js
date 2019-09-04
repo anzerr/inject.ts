@@ -5,6 +5,9 @@ class Util {
         return (typeof (target) === 'function' && target.toString().match(/^class/));
     }
     equal(actual, expected) {
+        if (actual.length !== expected.length) {
+            return false;
+        }
         try {
             assert.deepStrictEqual(actual, expected);
             return true;
