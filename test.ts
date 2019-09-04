@@ -51,8 +51,12 @@ class Thinger {
 	@Param({test: 'stuff', n: 1}, 'cat', true)
 	@Inject(Greeter)
 	greeter: Greeter;
+	egg: Log;
+	log: Log;
 
-	constructor() {
+	constructor(@Inject(Log) log: Log, @Inject(Log) egg: Log) {
+		this.egg = egg;
+		this.log = log;
 		built.thinger = (built.thinger || 0) + 1;
 	}
 
@@ -67,6 +71,7 @@ assert.deepEqual(outa, outb);
 assert.equal(outa[0].greeter.config, outa[0].greeter.log.config);
 assert.deepEqual(outa[0].greeter.message, [{test: 'stuff', n: 1}, 'cat', true]);
 
+console.log(built);
 for (const i in built) {
 	assert.equal(built[i], 1);
 }

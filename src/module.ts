@@ -45,12 +45,13 @@ export default class Module extends require('events') {
 		}
 		const a = new targetClass(...options);
 		for (const i in dep) {
-			const scope = this.getScope(dep[i].dep);
+			const depClass = util.isClass(dep[i].dep) ? dep[i].dep : dep[i].dep();
+			const scope = this.getScope(depClass);
 			const param = Reflect.getMetadata(METADATA.PARAM, a, dep[i].key) || scope;
-			const found = this.has(dep[i].dep, param);
-			a[dep[i].key] = (found) ? found : this.instantiate(dep[i].dep, param);
+			const found = this.has(depClass, param);
+			a[dep[i].key] = (found) ? found : this.instantiate(depClass, param);
 		}
-		this.instance.push({tClass: a, tParam: options || []});
+		this.instance.push({tClass: a, tParam: o || []});
 		return a;
 	}
 
