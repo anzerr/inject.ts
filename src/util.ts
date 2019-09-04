@@ -1,14 +1,13 @@
 
-import * as path from 'path';
 import * as assert from 'assert';
 
 class Util {
 
 	isClass(target: any): boolean {
-		return (typeof(target) === 'function' && target.toString().match(/^class/));
+		return (typeof (target) === 'function' && target.toString().match(/^class/));
 	}
 
-	equal(actual, expected) {
+	equal(actual: any, expected: any): any {
 		try {
 			assert.deepStrictEqual(actual, expected);
 			return true;
@@ -21,5 +20,4 @@ class Util {
 }
 
 const util = new Util();
-
 export = util;

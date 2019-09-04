@@ -7,12 +7,12 @@ const Inject = (dep) => {
     return (target, key, index) => {
         if (index !== undefined) {
             const a = Reflect.getMetadata(enum_1.METADATA.DEPENDANCYPARAM, target) || [];
-            a.push({ dep, index });
+            a.push({ dep: dep, index: index });
             Reflect.defineMetadata(enum_1.METADATA.DEPENDANCYPARAM, a, target);
         }
         else {
             const a = Reflect.getMetadata(enum_1.METADATA.DEPENDANCY, target.constructor) || [];
-            a.push({ dep, key });
+            a.push({ dep: dep, key: key });
             Reflect.defineMetadata(enum_1.METADATA.DEPENDANCY, a, target.constructor);
         }
     };

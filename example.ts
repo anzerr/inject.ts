@@ -5,9 +5,11 @@ import {Injectable, Inject, Module, Param} from './index';
 @Injectable()
 class Config {
 
-	constructor() {}
+	constructor() {
+		// nothing
+	}
 
-	get() {
+	get(): {[key: string]: any} {
 		return {
 			start: Math.floor(Math.random() * 10)
 		};
@@ -17,6 +19,7 @@ class Config {
 
 @Injectable()
 class Log {
+
 	count: number;
 
 	constructor(count, @Inject(Config) config: Config) {
@@ -24,15 +27,16 @@ class Log {
 		this.count = count || config.get().start;
 	}
 
-	console(...arg) {
+	console(...arg): void {
 		this.count += 1;
-		return console.log(this.count, ...arg);
+		console.log(this.count, ...arg);
 	}
 
 }
 
 @Injectable()
 class Greeter {
+
 	@Inject(() => Log)
 	log: Log;
 
@@ -40,13 +44,14 @@ class Greeter {
 		console.log('arg Greeter', arg);
 	}
 
-	displayMessage(name: string) {
+	displayMessage(name: string): void {
 		return this.log.console('welcome', name);
 	}
 
 }
 
 class Thinger {
+
 	@Param({test: 'stuff', n: 1}, 'cat', true)
 	@Inject(Greeter)
 	greeter: Greeter;
@@ -60,13 +65,14 @@ class Thinger {
 		}, 2000);
 	}
 
-	close() {
+	close(): void {
 		clearInterval(this.interval);
 	}
 
 }
 
 class Error {
+
 	@Param(100)
 	@Inject(Log)
 	log: Log;
@@ -75,7 +81,7 @@ class Error {
 		console.log('arg Error', arg);
 	}
 
-	error() {
+	error(): void {
 		return this.log.console('there was a error');
 	}
 

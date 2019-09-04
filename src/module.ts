@@ -1,22 +1,20 @@
 
 import 'reflect-metadata';
-import { METADATA } from './enum';
+import {METADATA} from './enum';
 import * as util from './util';
-
-const isClass = (target: any) : boolean => (typeof(target) === 'function' && target.toString().match(/^class/));
 
 export default class Module extends require('events') {
 
 	private list: any[];
 	private instance: any[];
 
-	constructor(list: Object[], instance?: Object[] | Module) {
+	constructor(list: Record<string, any>[], instance?: Record<string, any>[] | Module) {
 		super();
 		this.list = list;
 		this.instance = ((instance instanceof Module) ? instance.instance : instance) || [];
 	}
 
-	getScope(target: any) {
+	getScope(target: any): any[] {
 		const o = Reflect.getMetadata(METADATA.SCOPE, target);
 		if (!o) {
 			this.emit('warning', `missing @Injectable on ${target.name}}`);
@@ -27,7 +25,7 @@ export default class Module extends require('events') {
 
 	has(target: any, options: any[]): object | void {
 		for (const x in this.instance) {
-			if (this.instance[x].tClass instanceof target)  {
+			if (this.instance[x].tClass instanceof target) {
 				if (util.equal(this.instance[x].tParam, options)) {
 					return this.instance[x].tClass;
 				}
@@ -36,7 +34,7 @@ export default class Module extends require('events') {
 		return null;
 	}
 
-	instantiate(target: any, o?: any[]): Object {
+	instantiate(target: any, o?: any[]): Record<string, any> {
 		const targetClass = util.isClass(target) ? target : target();
 		const dep = Reflect.getMetadata(METADATA.DEPENDANCY, targetClass);
 		const injectParam = Reflect.getMetadata(METADATA.DEPENDANCYPARAM, targetClass);
@@ -46,7 +44,6 @@ export default class Module extends require('events') {
 			options[injectParam[i].index] = (found) ? found : this.instantiate(injectParam[i].dep, []);
 		}
 		const a = new targetClass(...options);
-		const injectParam2 = Reflect.getMetadata(METADATA.DEPENDANCYPARAM, a);
 		for (const i in dep) {
 			const scope = this.getScope(dep[i].dep);
 			const param = Reflect.getMetadata(METADATA.PARAM, a, dep[i].key) || scope;
@@ -57,7 +54,7 @@ export default class Module extends require('events') {
 		return a;
 	}
 
-	build() {
+	build(): any {
 		const o = [];
 		for (const i in this.list) {
 			const l = util.isClass(this.list[i]) ? this.list[i] : this.list[i]();

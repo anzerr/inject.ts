@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 const enum_1 = require("./enum");
 const util = require("./util");
-const isClass = (target) => (typeof (target) === 'function' && target.toString().match(/^class/));
 class Module extends require('events') {
     constructor(list, instance) {
         super();
@@ -38,7 +37,6 @@ class Module extends require('events') {
             options[injectParam[i].index] = (found) ? found : this.instantiate(injectParam[i].dep, []);
         }
         const a = new targetClass(...options);
-        const injectParam2 = Reflect.getMetadata(enum_1.METADATA.DEPENDANCYPARAM, a);
         for (const i in dep) {
             const scope = this.getScope(dep[i].dep);
             const param = Reflect.getMetadata(enum_1.METADATA.PARAM, a, dep[i].key) || scope;
