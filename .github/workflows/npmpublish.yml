@@ -47,4 +47,4 @@ jobs:
           scope: '@anzerr'
       - run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{secrets.github}}
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
