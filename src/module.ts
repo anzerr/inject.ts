@@ -34,7 +34,7 @@ export default class Module extends require('events') {
 		return null;
 	}
 
-	instantiate(target: any, o?: any[]): Record<string, any> {
+	instantiate(target: any, o = [], skip = false): Record<string, any> {
 		const targetClass = util.isClass(target) ? target : target();
 		const dep = Reflect.getMetadata(METADATA.DEPENDANCY, targetClass);
 		const injectParam = Reflect.getMetadata(METADATA.DEPENDANCYPARAM, targetClass);
@@ -51,7 +51,9 @@ export default class Module extends require('events') {
 			const found = this.has(depClass, param);
 			a[dep[i].key] = (found) ? found : this.instantiate(depClass, param);
 		}
-		this.instance.push({tClass: a, tParam: o || []});
+		if (!skip) {
+			this.instance.push({tClass: a, tParam: o || []});
+		}
 		return a;
 	}
 

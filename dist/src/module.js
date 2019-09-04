@@ -27,7 +27,7 @@ class Module extends require('events') {
         }
         return null;
     }
-    instantiate(target, o) {
+    instantiate(target, o = [], skip = false) {
         const targetClass = util.isClass(target) ? target : target();
         const dep = Reflect.getMetadata(enum_1.METADATA.DEPENDANCY, targetClass);
         const injectParam = Reflect.getMetadata(enum_1.METADATA.DEPENDANCYPARAM, targetClass);
@@ -44,7 +44,9 @@ class Module extends require('events') {
             const found = this.has(depClass, param);
             a[dep[i].key] = (found) ? found : this.instantiate(depClass, param);
         }
-        this.instance.push({ tClass: a, tParam: o || [] });
+        if (!skip) {
+            this.instance.push({ tClass: a, tParam: o || [] });
+        }
         return a;
     }
     build() {

@@ -6,7 +6,7 @@ export default class Module extends Module_base {
     constructor(list: Record<string, any>[], instance?: Record<string, any>[] | Module);
     getScope(target: any): any[];
     has(target: any, options: any[]): object | void;
-    instantiate(target: any, o?: any[]): Record<string, any>;
+    instantiate(target: any, o?: any[], skip?: boolean): Record<string, any>;
     build(): any;
 }
 export {};
