@@ -29,8 +29,7 @@ jobs:
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org/
-      - run: node -e "let p=require('./package.json');p.name='@anzerr/'+p.name;require('fs').writeFileSync('package.json',JSON.stringify(p));"
-      - run: node -e "let p=require('./package-lock.json');p.name='@anzerr/'+p.name;require('fs').writeFileSync('package-lock.json',JSON.stringify(p));"
+      - run: npm i -g git+https://git@github.com/anzerr/gha.cli.git && gha scope
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm}}
@@ -45,8 +44,7 @@ jobs:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
           scope: '@anzerr'
-      - run: node -e "let p=require('./package.json');p.name='@anzerr/'+p.name;require('fs').writeFileSync('package.json',JSON.stringify(p));"
-      - run: node -e "let p=require('./package-lock.json');p.name='@anzerr/'+p.name;require('fs').writeFileSync('package-lock.json',JSON.stringify(p));"
+      - run: npm i -g git+https://git@github.com/anzerr/gha.cli.git && gha scope
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
