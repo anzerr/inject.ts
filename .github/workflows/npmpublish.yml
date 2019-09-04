@@ -29,7 +29,8 @@ jobs:
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org/
-          scope: '@anzerr'
+      - run: node -e "let p=require('./package.json');p.name='@anzerr/'+p.name;require('fs').writeFileSync('package.json',JSON.stringify(p));"
+      - run: node -e "let p=require('./package-lock.json');p.name='@anzerr/'+p.name;require('fs').writeFileSync('package-lock.json',JSON.stringify(p));"
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
