@@ -1,8 +1,9 @@
-![GitHub Actions status | sdras/awesome-actions](https://github.com/anzerr/inject.ts/workflows/linter/badge.svg)
-![GitHub Actions status | sdras/awesome-actions](https://github.com/anzerr/inject.ts/workflows/publish/badge.svg)
-![GitHub Actions status | sdras/awesome-actions](https://github.com/anzerr/inject.ts/workflows/test/badge.svg)
 
 ### `Intro`
+![GitHub Actions status | linter](https://github.com/anzerr/inject.ts/workflows/linter/badge.svg)
+![GitHub Actions status | publish](https://github.com/anzerr/inject.ts/workflows/publish/badge.svg)
+![GitHub Actions status | test](https://github.com/anzerr/inject.ts/workflows/test/badge.svg)
+
 A simple example of a decorator for dependency injection.
 
 #### `Install`
