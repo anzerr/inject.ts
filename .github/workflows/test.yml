@@ -2,15 +2,9 @@ name: test
 
 on:
   pull_request:
-    paths:
-      - '*.js'
-      - '*.ts'
     branches:
       - master
   push:
-    paths:
-      - '*.js'
-      - '*.ts'
     branches:
       - master
 
