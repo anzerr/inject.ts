@@ -1,0 +1,18 @@
+node_modules
+node_modules/*
+.tag*
+.git/
+.idea/
+src/**/*.ts
+!src/**/*.d.ts
+
+# misc
+example/
+.gitignore
+.editorconfig
+circle.yml
+setup.sh
+Gruntfile.js
+tslint.json
+
+npm-debug.log

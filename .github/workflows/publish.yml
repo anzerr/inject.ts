@@ -1,10 +1,16 @@
-name: Node.js Package
+name: publish
 
 on:
   pull_request:
+    paths:
+      - '*.js'
+      - '*.ts'
     branches:
       - master
   push:
+    paths:
+      - '*.js'
+      - '*.ts'
     branches:
       - master
 
@@ -19,6 +25,7 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm audit
+      - run: npm run build --if-present
 
   publish-npm:
     needs: build

@@ -7,6 +7,7 @@
 		"test": "ts-node test.ts",
 		"example": "ts-node example.ts",
 		"build": "tsc -p ./",
+		"linter": "eslint src/**",
 		"clean": "find ./src -regex \".*\\.\\(js\\|map\\|d\\.ts\\)\" -type f -delete && rm -Rf ./dist"
 	},
 	"keywords": [],

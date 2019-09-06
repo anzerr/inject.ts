@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 const enum_1 = require("./enum");
-/* tslint:disable:variable-name */
 const Inject = (dep) => {
     return (target, key, index) => {
         if (index !== undefined) {

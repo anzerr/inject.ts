@@ -2,7 +2,6 @@
 import 'reflect-metadata';
 import {METADATA} from './enum';
 
-/* tslint:disable:variable-name */
 const Inject = (dep: (() => Record<string, any>) | Record<string, any>) => {
 	return (target: any, key: string, index?: number) => {
 		if (index !== undefined) {
