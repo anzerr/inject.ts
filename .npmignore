@@ -1,18 +1,10 @@
 node_modules
 node_modules/*
 .tag*
+.github
+LICENSE
 .git/
 .idea/
-src/**/*.ts
-!src/**/*.d.ts
-
-# misc
-example/
-.gitignore
-.editorconfig
-circle.yml
-setup.sh
-Gruntfile.js
-tslint.json
-
-npm-debug.log
+src
+test.ts
+tsconfig.json

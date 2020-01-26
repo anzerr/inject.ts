@@ -1,6 +1,6 @@
 
 import 'reflect-metadata';
-import { Injectable, Inject, Module, Param } from './index';
+import {Injectable, Inject, Module, Param} from './index';
 import * as assert from 'assert';
 
 const built: any = {};
