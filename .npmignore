@@ -5,6 +5,6 @@ node_modules/*
 LICENSE
 .git/
 .idea/
-src
-test.ts
-tsconfig.json
+./test.ts
+./tsconfig.json
+./src/*
