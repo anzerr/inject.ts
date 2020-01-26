@@ -1,23 +1,31 @@
 {
 	"name": "inject.ts",
 	"version": "1.0.14",
-	"description": "",
+	"description": "Dependency injection decorator",
+	"keywords": [
+		"injection",
+		"nodejs",
+		"typescipt",
+		"util"
+	],
+	"homepage": "https://github.com/anzerr/inject.ts#readme",
+	"bugs": {
+		"url": "https://github.com/anzerr/inject.ts/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git@github.com:anzerr/inject.ts.git"
+	},
+	"license": "MIT",
+	"author": "anzerr",
 	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
 	"scripts": {
 		"test": "ts-node test.ts",
 		"example": "ts-node example.ts",
 		"build": "tsc -p ./",
 		"linter": "eslint src/**",
 		"clean": "find ./src -regex \".*\\.\\(js\\|map\\|d\\.ts\\)\" -type f -delete && rm -Rf ./dist"
-	},
-	"author": "anzerr",
-	"license": "MIT",
-	"devDependencies": {
-		"@types/node": "^11.13.4",
-		"eslint": "^6.8.0",
-		"eslint-config-typescript": "git+https://git@github.com/anzerr/eslint-config-typescript.git",
-		"ts-node": "^8.1.0",
-		"typescript": "^3.4.3"
 	},
 	"eslintConfig": {
 		"extends": "eslint-config-typescript",
@@ -28,16 +36,14 @@
 	"dependencies": {
 		"reflect-metadata": "^0.1.13"
 	},
-	"repository": {
-		"type": "git",
-		"url": "git@github.com:anzerr/inject.ts.git"
+	"devDependencies": {
+		"@types/node": "^11.13.4",
+		"eslint": "^6.8.0",
+		"eslint-config-typescript": "git+https://git@github.com/anzerr/eslint-config-typescript.git",
+		"ts-node": "^8.1.0",
+		"typescript": "^3.4.3"
 	},
 	"engines": {
 		"node": ">= 0.10.0"
-	},
-	"types": "dist/index.d.ts",
-	"bugs": {
-		"url": "https://github.com/anzerr/inject.ts/issues"
-	},
-	"homepage": "https://github.com/anzerr/inject.ts#readme"
+	}
 }
