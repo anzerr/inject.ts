@@ -87,9 +87,46 @@ class Error {
 
 }
 
-const a = new Module([Thinger, Error]);
+class Error1 extends Error {
+
+	@Param({test: 'stuff', n: 1}, 'cat', true)
+	@Inject(Greeter)
+	greeter: Greeter;
+
+	constructor() {
+		super();
+	}
+
+	error(): void {
+		return this.log.console('there was a error1', {
+			config: typeof (this as any).config, // will be null (param injects are not shared)
+			greeter: typeof (this as any).greeter // injected by property
+		});
+	}
+
+}
+
+class Error2 extends Error {
+
+	config: Config;
+
+	constructor(@Inject(Config) config: Config) {
+		super();
+		this.config = config;
+	}
+
+	error(): void {
+		return this.log.console('there was a error2', {
+			config: typeof (this as any).config, // injected in param
+			greeter: typeof (this as any).greeter // this will be injected because of the Error1 property inject
+		});
+	}
+
+}
+
+const a = new Module([Thinger, Error1, Error2]);
 a.build();
-const b = new Module([Thinger, Error], a);
+const b = new Module([Thinger, Error1, Error2], a);
 const c = b.build();
 
 console.log(c);

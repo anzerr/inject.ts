@@ -49,6 +49,9 @@ export default class Module extends require('events') {
 			const scope = this.getScope(depClass);
 			const param = Reflect.getMetadata(METADATA.PARAM, a, dep[i].key) || scope;
 			const found = this.has(depClass, param);
+			if (a[dep[i].key]) {
+				throw new Error(`inject key "${dep[i].key}" is not "undefined" should not overload already existing keys`);
+			}
 			a[dep[i].key] = (found) ? found : this.instantiate(depClass, param);
 		}
 		if (!skip) {
