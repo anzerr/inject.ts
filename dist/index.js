@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Param = exports.Module = exports.Inject = exports.Injectable = void 0;
 require("reflect-metadata");
 const inject_1 = require("./src/inject");
 exports.Inject = inject_1.default;
