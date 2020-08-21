@@ -35,14 +35,18 @@ class Module extends require('events') {
     }
     instantiate(target, o = [], skip = false) {
         const targetClass = util.isClass(target) ? target : target();
-        const dep = Reflect.getMetadata(enum_1.METADATA.DEPENDANCY, targetClass);
         const injectParam = Reflect.getMetadata(enum_1.METADATA.DEPENDANCYPARAM, targetClass);
         const options = (o) ? [...o] : [];
         for (const i in injectParam) {
-            const found = this.has(injectParam[i].dep, []);
-            options[injectParam[i].index] = (found) ? found : this.instantiate(injectParam[i].dep, []);
+            const depClass = util.isClass(injectParam[i].dep) ? injectParam[i].dep : injectParam[i].dep();
+            const found = this.has(depClass, []);
+            options[injectParam[i].index] = (found) ? found : this.instantiate(depClass, []);
         }
         const a = new targetClass(...options);
+        if (!skip) {
+            this.instance.push({ tClass: a, tParam: o || [] });
+        }
+        const dep = Reflect.getMetadata(enum_1.METADATA.DEPENDANCY, targetClass);
         for (const i in dep) {
             const depClass = util.isClass(dep[i].dep) ? dep[i].dep : dep[i].dep();
             const scope = this.getScope(depClass);
@@ -52,9 +56,6 @@ class Module extends require('events') {
                 throw new Error(`inject key "${dep[i].key}" is not "undefined" should not overload already existing keys`);
             }
             a[dep[i].key] = (found) ? found : this.instantiate(depClass, param);
-        }
-        if (!skip) {
-            this.instance.push({ tClass: a, tParam: o || [] });
         }
         return a;
     }
