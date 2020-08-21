@@ -2,6 +2,7 @@
 import 'reflect-metadata';
 import {METADATA} from './enum';
 import * as util from './util';
+import * as nodeutil from 'util';
 
 export default class Module extends require('events') {
 
@@ -25,10 +26,14 @@ export default class Module extends require('events') {
 
 	has(target: any, options: any[]): object | void {
 		for (const x in this.instance) {
-			if (this.instance[x].tClass instanceof target) {
-				if (util.equal(this.instance[x].tParam, options)) {
-					return this.instance[x].tClass;
+			try {
+				if (this.instance[x].tClass instanceof target) {
+					if (util.equal(this.instance[x].tParam, options)) {
+						return this.instance[x].tClass;
+					}
 				}
+			} catch(e) {
+				throw new Error(`do you have a circular dependency? failed to match ${nodeutil.format(this.instance[x].tClass)} with ${nodeutil.format(target)}`);
 			}
 		}
 		return null;

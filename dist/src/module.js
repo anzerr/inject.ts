@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 const enum_1 = require("./enum");
 const util = require("./util");
+const nodeutil = require("util");
 class Module extends require('events') {
     constructor(list, instance) {
         super();
@@ -19,10 +20,15 @@ class Module extends require('events') {
     }
     has(target, options) {
         for (const x in this.instance) {
-            if (this.instance[x].tClass instanceof target) {
-                if (util.equal(this.instance[x].tParam, options)) {
-                    return this.instance[x].tClass;
+            try {
+                if (this.instance[x].tClass instanceof target) {
+                    if (util.equal(this.instance[x].tParam, options)) {
+                        return this.instance[x].tClass;
+                    }
                 }
+            }
+            catch (e) {
+                throw new Error(`do you have a circular dependency? failed to match ${nodeutil.format(this.instance[x].tClass)} with ${nodeutil.format(target)}`);
             }
         }
         return null;
