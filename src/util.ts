@@ -1,13 +1,14 @@
 
 import * as assert from 'assert';
+import is from 'type.util';
 
-class Util {
+export class Util {
 
-	isClass(target: any): boolean {
+	static isClass(target: any): boolean {
 		return (typeof (target) === 'function' && target.toString().match(/^class/));
 	}
 
-	equal(actual: any, expected: any): any {
+	static equal(actual: any, expected: any): any {
 		if (actual.length !== expected.length) {
 			return false;
 		}
@@ -20,7 +21,28 @@ class Util {
 		return false;
 	}
 
-}
+	static copy<T>(source: T): T {
+		if (!is.object(source) && !is.array(source)) {
+			return source;
+		}
+		const isArray = is.array(source),
+			target: any = isArray ? [] : {};
+		for (const i in source) {
+			if (!is.instance(source[i], RegExp) && (is.object(source[i]) || is.array(source[i]))) {
+				if (isArray) {
+					target.push(Util.copy(source[i]));
+				} else {
+					target[i] = Util.copy(source[i]);
+				}
+			} else {
+				if (isArray) {
+					target.push(source[i]);
+				} else {
+					target[i] = source[i];
+				}
+			}
+		}
+		return target;
+	}
 
-const util = new Util();
-export = util;
+}

@@ -1,7 +1,7 @@
 
 import 'reflect-metadata';
 import {METADATA} from './enum';
-import * as util from './util';
+import {Util} from './util';
 import * as nodeutil from 'util';
 
 export default class Module extends require('events') {
@@ -28,7 +28,7 @@ export default class Module extends require('events') {
 		for (const x in this.instance) {
 			try {
 				if (this.instance[x].tClass instanceof target) {
-					if (util.equal(this.instance[x].tParam, options)) {
+					if (Util.equal(this.instance[x].tParam, options)) {
 						return this.instance[x].tClass;
 					}
 				}
@@ -40,11 +40,11 @@ export default class Module extends require('events') {
 	}
 
 	instantiate(target: any, o = [], skip = false): Record<string, any> {
-		const targetClass = util.isClass(target) ? target : target();
+		const targetClass = Util.isClass(target) ? target : target();
 		const injectParam = Reflect.getMetadata(METADATA.DEPENDANCYPARAM, targetClass);
 		const options = (o) ? [...o] : [];
 		for (const i in injectParam) {
-			const depClass = util.isClass(injectParam[i].dep) ? injectParam[i].dep : injectParam[i].dep();
+			const depClass = Util.isClass(injectParam[i].dep) ? injectParam[i].dep : injectParam[i].dep();
 			const found = this.has(depClass, []);
 			options[injectParam[i].index] = (found) ? found : this.instantiate(depClass, []);
 		}
@@ -55,7 +55,7 @@ export default class Module extends require('events') {
 		}
 		const dep = Reflect.getMetadata(METADATA.DEPENDANCY, targetClass);
 		for (const i in dep) {
-			const depClass = util.isClass(dep[i].dep) ? dep[i].dep : dep[i].dep();
+			const depClass = Util.isClass(dep[i].dep) ? dep[i].dep : dep[i].dep();
 			const scope = this.getScope(depClass);
 			const param = Reflect.getMetadata(METADATA.PARAM, a, dep[i].key) || scope;
 			const found = this.has(depClass, param);
@@ -70,7 +70,7 @@ export default class Module extends require('events') {
 	build(): any {
 		const o = [];
 		for (const i in this.list) {
-			const l = util.isClass(this.list[i]) ? this.list[i] : this.list[i]();
+			const l = Util.isClass(this.list[i]) ? this.list[i] : this.list[i]();
 			const found = this.has(l, []);
 			o.push(found ? found : this.instantiate(this.list[i]));
 		}

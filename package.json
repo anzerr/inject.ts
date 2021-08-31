@@ -34,7 +34,8 @@
 		}
 	},
 	"dependencies": {
-		"reflect-metadata": "^0.1.13"
+		"reflect-metadata": "^0.1.13",
+		"type.util": "git+https://git@github.com/anzerr/type.util.git"
 	},
 	"devDependencies": {
 		"@types/node": "^11.13.4",
