@@ -1,6 +1,6 @@
 {
 	"name": "inject.ts",
-	"version": "1.0.25",
+	"version": "1.0.26",
 	"description": "Dependency injection decorator",
 	"keywords": [
 		"injection",
