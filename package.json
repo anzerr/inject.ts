@@ -24,14 +24,7 @@
 		"test": "ts-node test.ts",
 		"example": "ts-node example.ts",
 		"build": "tsc -p ./",
-		"linter": "eslint src/**",
 		"clean": "find ./src -regex \".*\\.\\(js\\|map\\|d\\.ts\\)\" -type f -delete && rm -Rf ./dist"
-	},
-	"eslintConfig": {
-		"extends": "eslint-config-typescript",
-		"rules": {
-			"new-cap": 0
-		}
 	},
 	"dependencies": {
 		"reflect-metadata": "^0.1.13",
@@ -39,10 +32,8 @@
 	},
 	"devDependencies": {
 		"@types/node": "^11.13.4",
-		"eslint": "^6.8.0",
-		"eslint-config-typescript": "git+https://git@github.com/anzerr/eslint-config-typescript.git",
-		"ts-node": "^8.1.0",
-		"typescript": "^3.4.3"
+		"ts-node": "^10.4.0",
+		"typescript": "^4.5.5"
 	},
 	"engines": {
 		"node": ">= 0.10.0"
